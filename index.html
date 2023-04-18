@@ -245,7 +245,12 @@ function delay(time) {
 //...MY2
 function myfunc() {
    //decode64();
-   alert($("#base64").val().trim().length);
+
+     if($("#base64").val().trim()) {
+     alert($("#base64").val().trim().length);
+     } else {
+     alert('EMPTY');
+     //}
 	
 }
 
@@ -255,14 +260,7 @@ $(document).ready(function() {
     $("#base64").bind("keyup",decode64);
     $("#as_image_link").bind("click",showImage);
 
-    delay(5000).then(() => myfunc()); //...MY
-	
-     //if($("#base64").val().trim()) {
-     //alert('1111111111111');
-     //} else {
-     //alert('0000000000000');
-     //}
-
+    delay(500).then(() => myfunc()); //...MY
 	
 });
 //-->
