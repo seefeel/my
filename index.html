@@ -1,0 +1,329 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>My Decode and Encode Base64</title>
+
+<style type="text/css">
+body {
+	background: #C9C9C9;
+	font-family: Verdana;
+        font-size: .8em;
+}
+textarea {
+	background: #E7E7E7;
+	font-family: monospace;
+        font-size: 2em;
+        border: none;
+	margin-top: 14px;
+}
+#hex {
+	font-size: 3em;
+	height: 45px;
+	font-weight: 700;
+}
+.btn {
+	width: 280px;
+        border: 1px solid #333333;
+        border-radius: 16px;
+	background: #333333;
+	color: white;	
+        font-size: 1.5em;
+	font-weight: 700;
+}
+.btn:disabled {
+	display: none;
+}
+</style>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"></script>
+<script type="text/javascript" language="javascript">
+function minimize() {
+    $(".header").fadeOut();
+    $(".description").fadeOut();
+    $(".footer").fadeOut();
+}
+
+$(document).ready(function() {
+    $("#minimize").bind("click",minimize);
+});
+</script>
+<script type="text/javascript">
+window.google_analytics_uacct = "UA-7783568-2";
+</script>
+<script type="text/javascript" language="javascript">
+<!-- 
+var b64array = "ABCDEFGHIJKLMNOP" +
+           "QRSTUVWXYZabcdef" +
+           "ghijklmnopqrstuv" +
+           "wxyz0123456789+/" +
+           "=";
+
+function encodePlain() {
+    $("#hex").val("");
+    $(".btn").attr('disabled',true);
+    input = $("#plain").val();
+    var base64 = "";
+    var hex = "";
+    var chr1, chr2, chr3 = "";
+    var enc1, enc2, enc3, enc4 = "";
+    var i = 0;
+
+    do {
+        chr1 = input.charCodeAt(i++);
+        chr2 = input.charCodeAt(i++);
+        chr3 = input.charCodeAt(i++);
+    
+        enc1 = chr1 >> 2;
+        enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+        enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+        enc4 = chr3 & 63;
+    
+        if (isNaN(chr2)) {
+            enc3 = enc4 = 64;
+        } else if (isNaN(chr3)) {
+            enc4 = 64;
+        }
+
+        base64  = base64  +
+            b64array.charAt(enc1) +
+            b64array.charAt(enc2) +
+            b64array.charAt(enc3) +
+            b64array.charAt(enc4);
+        chr1 = chr2 = chr3 = "";
+        enc1 = enc2 = enc3 = enc4 = "";
+    } while (i < input.length);
+
+    $("#base64").val(base64 );
+
+    // encodeHex();
+    // encodeImage();
+}
+
+function decode64() {
+    $("#hex").val("");
+    $(".btn").attr('disabled',true);
+    var input = $("#base64").val();
+    var output = "";
+    var hex = "";
+    var chr1, chr2, chr3 = "";
+    var enc1, enc2, enc3, enc4 = "";
+    var i = 0;
+
+    var base64test = /[^A-Za-z0-9\+\/\=]/g;
+    if (base64test.exec(input)) {
+        //
+    } else {
+        $("#message").html("");
+    }
+    input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+
+    do {
+        enc1 = b64array.indexOf(input.charAt(i++));
+        enc2 = b64array.indexOf(input.charAt(i++));
+        enc3 = b64array.indexOf(input.charAt(i++));
+        enc4 = b64array.indexOf(input.charAt(i++));
+        
+        chr1 = (enc1 << 2) | (enc2 >> 4);
+        chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+        chr3 = ((enc3 & 3) << 6) | enc4;
+        
+        output = output + String.fromCharCode(chr1);
+        
+        if (enc3 != 64) {
+            output = output + String.fromCharCode(chr2);
+        }
+        if (enc4 != 64) {
+            output = output + String.fromCharCode(chr3);
+        }
+    
+        chr1 = chr2 = chr3 = "";
+        enc1 = enc2 = enc3 = enc4 = "";
+    
+    } while (i < input.length);
+
+    $("#plain").val(unescape(output));
+
+   // var str1 = $("#plain").val();
+   var splits1 = $("#plain").val().split("url=https://slink.bid/?go=");
+   var str1 = splits1[1];
+   //var splits2 = str1.split("&amp;"); // old variant...
+   var splits2 = str1.split('"');       // new variant...
+   var str2 = splits2[0];
+   $("#hex").val(str2);
+   decode64plus();
+
+
+   //
+   //$("#base64").val($("#hex").val());
+
+    // encodeHex();
+    // encodeImage();
+}
+
+/////////////////////////////////////////////////////
+function decode64plus() {
+    var input = $("#hex").val();
+    var output = "";
+    var hex = "";
+    var chr1, chr2, chr3 = "";
+    var enc1, enc2, enc3, enc4 = "";
+    var i = 0;
+
+    var base64test = /[^A-Za-z0-9\+\/\=]/g;
+    if (base64test.exec(input)) {
+        //
+    } else {
+        $("#message").html("");
+    }
+    input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+
+    do {
+        enc1 = b64array.indexOf(input.charAt(i++));
+        enc2 = b64array.indexOf(input.charAt(i++));
+        enc3 = b64array.indexOf(input.charAt(i++));
+        enc4 = b64array.indexOf(input.charAt(i++));
+        
+        chr1 = (enc1 << 2) | (enc2 >> 4);
+        chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+        chr3 = ((enc3 & 3) << 6) | enc4;
+        
+        output = output + String.fromCharCode(chr1);
+        
+        if (enc3 != 64) {
+            output = output + String.fromCharCode(chr2);
+        }
+        if (enc4 != 64) {
+            output = output + String.fromCharCode(chr3);
+        }
+    
+        chr1 = chr2 = chr3 = "";
+        enc1 = enc2 = enc3 = enc4 = "";
+    
+    } while (i < input.length);
+
+    $("#hex").val(unescape(output));
+    $(".btn").attr('disabled',false);
+}
+/////////////////////////////////////////////////////
+
+function encodeHex() {
+    var hex="";
+    var input = $("#plain").val();
+    for (i=0; i<input.length; i++)
+        hex += '%' + input.charCodeAt(i).toString(16);
+
+    $("#hex").val(hex);
+}
+
+function encodeImage() {
+    var src = "data:image;base64,";
+    src = src + $("#base64").val();
+    $("#b64_img").attr("src",src);
+}
+
+function showImage() {
+    $("#as_image").dialog();
+}
+
+///////////////// My Go function...
+function golink() {
+
+    //if ($("#hex").val().indexOf('https://clk.asia/') + 1) // old variant...
+    if (($("#hex").val().indexOf('https://clk.asia/') + 1) || ($("#hex").val().indexOf('https://fc-lc.com/') + 1))
+    window.location.href = $("#hex").val();
+	   
+}
+
+$(document).ready(function() {
+    $("#plain").bind("keyup",encodePlain);
+    $("#base64").bind("keyup",decode64);
+    $("#as_image_link").bind("click",showImage);
+});
+//-->
+</script>
+</head>
+<body>
+<div class="wrap">
+<div class="content">
+<div class="header">
+<h1 id="title">https://slink.bid/?go=...........................................................</h1>
+<div class="ads">
+<script type="text/javascript"><!--
+google_ad_client = "pub-8439490324871070";
+/* 728x90, created 6/30/09 */
+google_ad_slot = "1605096053";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+</div>
+<div class="body">
+<div id="message"></div>
+<div style="text-align:center;">
+<p>
+Base64 (automatically decoded)<br />
+<textarea id="base64" rows="3" style="width: 700px;"></textarea>
+
+<p>
+ASCII Plain Text (automatically encoded)<br />
+<textarea id="plain" rows="3" style="width: 700px;"></textarea>
+
+<p>
+Result (detected next link)<br />
+<textarea id="hex" rows="3" style="width: 700px;" readonly="readonly"></textarea>
+
+
+<p>
+<button class="btn" disabled="disabled" onclick="golink()">GO RESULT LINK</button>
+
+</div>
+
+
+
+<div id="as_image" style="display:none;" title="Decoded as Image (IE not supported)">
+<img id="b64_img"/>
+</div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-7783568-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {
+	var links = document.getElementsByTagName('a');
+	var query = '?';
+	for(var i = 0; i < links.length; i++) {
+	if(links[i].href.indexOf('#disqus_thread') >= 0) {
+		query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
+	}
+	}
+	document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/decodebase64/get_num_replies.js' + query + '"></' + 'script>');
+})();
+//]]>
+</script>
+</div>
+
+<script type="text/javascript">
+  (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = 'http://decodebase64.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</div>
+</body>
+</html>
