@@ -253,8 +253,14 @@ $(document).ready(function() {
     $("#base64").bind("keyup",decode64);
     $("#as_image_link").bind("click",showImage);
 
-    delay(1000).then(() => myfunc()); //...MY
-
+    //delay(1000).then(() => myfunc()); //...MY
+	
+     if($("#base64").val().trim()) {
+     alert('1111111111111');
+     } else {
+     alert('0000000000000');
+     }	
+	
 });
 //-->
 </script>
