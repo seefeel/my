@@ -256,12 +256,14 @@ $(document).ready(function() {
     $("#as_image_link").bind("click",showImage);
 
     var arg = document.location.href.replace("https://seefeel.github.io/my/?", "");
-	
-    $("#base64").val(arg);
 
+    if arg !=== 'https://seefeel.github.io/my/' {
+    $("#base64").val(arg);
+    }
+	
     delay(500).then(() => myfunc()); //...MY
 
-    alert(arg.length);
+    
 
 
      
