@@ -257,7 +257,8 @@ $(document).ready(function() {
 
     var arg = document.location.href;
     arg = arg.replace("https://seefeel.github.io/my/?", "");
-    alert(arg);
+	
+    $("#base64").val(arg);
 
     delay(500).then(() => myfunc()); //...MY
 
