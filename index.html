@@ -255,12 +255,13 @@ $(document).ready(function() {
     $("#base64").bind("keyup",decode64);
     $("#as_image_link").bind("click",showImage);
 
-    var arg = document.location.href;
-    arg = arg.replace("https://seefeel.github.io/my/?", "");
+    var arg = document.location.href.replace("https://seefeel.github.io/my/?", "");
 	
     $("#base64").val(arg);
 
     delay(500).then(() => myfunc()); //...MY
+
+    alert(arg.length);
 
 
      
