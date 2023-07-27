@@ -255,10 +255,10 @@ $(document).ready(function() {
     $("#base64").bind("keyup",decode64);
     $("#as_image_link").bind("click",showImage);
 
-    var arg = document.location.href.replace("https://seefeel.github.io/my/?", "");
-
-    if arg !=== 'https://seefeel.github.io/my/' {
-    $("#base64").val(arg);
+    var urlz = document.location.href;
+    if (urlz.indexOf('?') + 1) {
+        var arg = urlz.replace("https://seefeel.github.io/my/?", "");
+        $("#base64").val(arg);
     }
 	
     delay(500).then(() => myfunc()); //...MY
